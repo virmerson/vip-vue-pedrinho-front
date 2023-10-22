@@ -5,7 +5,7 @@
 			<v-row dense>
 				<v-col
 					cols="12"
-					v-for="(product, index) in cartCopy"
+					v-for="(product, index) in cart"
 					:key="product.id"
 				>
 					<v-card color="#1F7087" theme="dark">
@@ -54,34 +54,38 @@
 import { toRefs, computed, ref } from "vue";
 
 export default {
-	props: {
-		cart: Array,
-	},
-	emits: ["finishOrder"],
-	setup(props, { emit }) {
-		const { cart } = toRefs(props);
-		const cartCopy = ref([...cart.value]);
+  props: {
+    cart: Array,
+  },
+  emits: ["finishOrder"],
+  setup(props, { emit }) {
+    const { cart } = toRefs(props);
 
-		const deleteProduct = (index) => {
-			cartCopy.value.splice(index, 1);
-		};
-		const totalCart = computed(() => {
-			const priceSum = cartCopy.value.reduce(
-				(total, product) => total + parseFloat(product.price),
-				0
-			);
-			return priceSum;
-		});
-		const finishOrder = () => {
-			const order = {
-				products: cartCopy.value,
-				total: totalCart.value,
-				createAt: new Date().toLocaleString(),
-			};
-			emit("finishOrder", order);
-			cartCopy.value = [];
-		};
-		return { cartCopy, deleteProduct, totalCart, finishOrder };
-	},
+    const deleteProduct = (index) => {
+      cart.value.splice(index, 1);
+    };
+    const totalCart = computed(() => {
+      const priceSum = cart.value.reduce(
+        (total, product) => total + parseFloat(product.price),
+        0
+      );
+      return priceSum;
+    });
+
+    const clearCart = () => {
+      cart.value.splice(0, cart.value.length);
+    };
+
+    const finishOrder = () => {
+      const order = {
+        products: [...cart.value],
+        total: totalCart.value,
+        createAt: new Date().toLocaleString(),
+      };
+      emit("finishOrder", order);
+      clearCart();
+    };
+    return { cart, deleteProduct, totalCart, finishOrder };
+  },
 };
 </script>
