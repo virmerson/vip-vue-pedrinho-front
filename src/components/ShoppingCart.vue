@@ -5,7 +5,7 @@
 			<v-row dense>
 				<v-col
 					cols="12"
-					v-for="(product, index) in cart"
+					v-for="(product, index) in cartCopy"
 					:key="product.id"
 				>
 					<v-card color="#1F7087" theme="dark">
@@ -51,7 +51,7 @@
 	</v-card>
 </template>
 <script>
-import { toRefs, computed } from "vue";
+import { toRefs, computed, ref } from "vue";
 
 export default {
 	props: {
@@ -60,12 +60,13 @@ export default {
 	emits: ["finishOrder"],
 	setup(props, { emit }) {
 		const { cart } = toRefs(props);
-		console.log(cart)
+		const cartCopy = ref([...cart.value]);
+
 		const deleteProduct = (index) => {
-			cart.value.splice(index, 1);
+			cartCopy.value.splice(index, 1);
 		};
 		const totalCart = computed(() => {
-			const priceSum = cart.value.reduce(
+			const priceSum = cartCopy.value.reduce(
 				(total, product) => total + parseFloat(product.price),
 				0
 			);
@@ -73,13 +74,14 @@ export default {
 		});
 		const finishOrder = () => {
 			const order = {
-				products: cart.value,
+				products: cartCopy.value,
 				total: totalCart.value,
 				createAt: new Date().toLocaleString(),
 			};
 			emit("finishOrder", order);
+			cartCopy.value = [];
 		};
-		return { cart, deleteProduct, totalCart, finishOrder };
+		return { cartCopy, deleteProduct, totalCart, finishOrder };
 	},
 };
 </script>
