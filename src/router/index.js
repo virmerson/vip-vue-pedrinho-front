@@ -1,18 +1,31 @@
-// Composables
 import { createRouter, createWebHistory } from 'vue-router'
-
+import ShoppingCart from '@/views/ShoppingCart.vue'
+import OrderList from '@/views/OrderList.vue'
+import ProductList from '@/views/ProductList.vue'
 const routes = [
   {
     path: '/',
-    component: () => import('@/layouts/default/Default.vue'),
+    component: ProductList,
     children: [
       {
         path: '',
         name: 'Home',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+        component: () => import('@/views/Home.vue'),
+      },
+      {
+        path: '/cart',
+        name: 'Cart',
+        component: ShoppingCart,
+      },
+      {
+        path: '/orders',
+        name: 'Orders',
+        component: OrderList,
+      },
+      {
+        path: '/productList',
+        name: 'ProductList',
+        component: ProductList,
       },
     ],
   },
