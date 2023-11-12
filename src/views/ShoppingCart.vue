@@ -52,40 +52,36 @@
 </template>
 <script>
 import { toRefs, computed, ref } from "vue";
+import { useCartStore } from "@/store/cart";
 
 export default {
-  props: {
-    cart: Array,
-  },
-  emits: ["finishOrder"],
-  setup(props, { emit }) {
-    const { cart } = toRefs(props);
+	emits: ["finishOrder"],
+	setup(props, { emit }) {
+		
+		const cartStore = useCartStore();
 
-    const deleteProduct = (index) => {
-      cart.value.splice(index, 1);
-    };
-    const totalCart = computed(() => {
-      const priceSum = cart.value.reduce(
-        (total, product) => total + parseFloat(product.price),
-        0
-      );
-      return priceSum;
-    });
+		const deleteProduct = (index) => {
+			cartStore.removeFromCart(index);
+		};
+		const totalCart = computed(() => {
+			const priceSum = cartStore.calcTotal()
+			return priceSum;
+		});
 
-    const clearCart = () => {
-      cart.value.splice(0, cart.value.length);
-    };
+		const clearCart = () => {
+			cartStore.clearCart()
+		};
 
-    const finishOrder = () => {
-      const order = {
-        products: [...cart.value],
-        total: totalCart.value,
-        createAt: new Date().toLocaleString(),
-      };
-      emit("finishOrder", order);
-      clearCart();
-    };
-    return { cart, deleteProduct, totalCart, finishOrder };
-  },
+		const finishOrder = () => {
+			const order = {
+				products: [...cartStore.cart],
+				total: totalCart.value,
+				createAt: new Date().toLocaleString(),
+			};
+			emit("finishOrder", order);
+			clearCart();
+		};
+		return { cart, deleteProduct, totalCart, finishOrder };
+	},
 };
 </script>
