@@ -1,5 +1,5 @@
 <template>
-	<h1>Carrinho de produtos</h1>
+	<h1>Carrinho de Compras</h1>
 	<v-card max-width="400" class="mx-auto">
 		<v-container>
 			<v-row dense>
