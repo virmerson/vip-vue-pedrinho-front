@@ -5,7 +5,11 @@
 	<v-card max-width="400" class="mx-auto">
 		<v-container>
 			<v-row dense>
-				<v-col cols="12" v-for="product in productStore.products" :key="product.id">
+				<v-col
+					cols="12"
+					v-for="product in productStore.products"
+					:key="product.id"
+				>
 					<product
 						@addCart="addCart"
 						@showDetails="showDetails"
@@ -27,19 +31,17 @@ import { useCartStore } from "@/store/cart";
 export default {
 	setup(props, { emit }) {
 		const details = ref({});
-		
-		//acessa do productStore.product
-		const productStore = useProductStore()
-		
-	
-		const addCart = (prod) => {
 
+		//acessa do productStore.product
+		const productStore = useProductStore();
+		const cartStore = useCartStore();
+
+		const addCart = (prod) => {
 			//adicionar no array do carStore
-			//cartStore.addProduct(prod)
-			
+			cartStore.addToCart(prod);
 		};
 		const showDetails = (prod) => {
-			//buscar do cartStore 
+			//buscar do cartStore
 			details.value = prod;
 		};
 

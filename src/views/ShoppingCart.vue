@@ -5,7 +5,7 @@
 			<v-row dense>
 				<v-col
 					cols="12"
-					v-for="(product, index) in cart"
+					v-for="(product, index) in cartStore.cart"
 					:key="product.id"
 				>
 					<v-card color="#1F7087" theme="dark">
@@ -81,7 +81,7 @@ export default {
 			emit("finishOrder", order);
 			clearCart();
 		};
-		return { cart, deleteProduct, totalCart, finishOrder };
+		return { cartStore, deleteProduct, totalCart, finishOrder };
 	},
 };
 </script>
