@@ -53,23 +53,23 @@
 <script>
 import { toRefs, computed, ref } from "vue";
 import { useCartStore } from "@/store/cart";
+import { useOrdersStore } from "@/store/orders";
 
 export default {
-	emits: ["finishOrder"],
-	setup(props, { emit }) {
-		
+	setup() {
 		const cartStore = useCartStore();
+		const orderStore = useOrdersStore();
 
 		const deleteProduct = (index) => {
 			cartStore.removeFromCart(index);
 		};
 		const totalCart = computed(() => {
-			const priceSum = cartStore.calcTotal()
+			const priceSum = cartStore.calcTotal();
 			return priceSum;
 		});
 
 		const clearCart = () => {
-			cartStore.clearCart()
+			cartStore.clearCart();
 		};
 
 		const finishOrder = () => {
@@ -78,10 +78,15 @@ export default {
 				total: totalCart.value,
 				createAt: new Date().toLocaleString(),
 			};
-			emit("finishOrder", order);
+			orderStore.addOrder(order);
 			clearCart();
 		};
-		return { cartStore, deleteProduct, totalCart, finishOrder };
+		return {
+			cartStore,
+			deleteProduct,
+			totalCart,
+			finishOrder,
+		};
 	},
 };
 </script>

@@ -24,7 +24,7 @@
 <script>
 import Product from "@/components/Product.vue";
 import ProductDetails from "@/components/ProductDetails.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useProductStore } from "@/store/product";
 import { useCartStore } from "@/store/cart";
 
@@ -44,6 +44,10 @@ export default {
 			//buscar do cartStore
 			details.value = prod;
 		};
+
+		onMounted(() => {
+			productStore.fetchProducts()
+		})
 
 		return { productStore, details, addCart, showDetails };
 	},

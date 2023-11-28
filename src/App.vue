@@ -1,16 +1,53 @@
 <template>
-	<div>
-		<div>
-			<router-link to="/cart">Go to Shopping Cart</router-link>
-			<router-link to="/orders">Go to Order List</router-link>
-			<router-link to="/productList">Go to Product List</router-link>
-		</div>
-		<div>
+	<v-app>
+		<v-navigation-drawer v-model="drawer">
+			<v-list>
+				<v-list-item
+					prepend-avatar="src/assets/pitbull.jpg"
+					title="Pedrinho"
+					subtitle="Github: pedrinho-dev"
+				></v-list-item>
+			</v-list>
+
+			<v-list-item prepend-icon="mdi-view-list" link to="/productList">
+				<v-list-item-title>Products</v-list-item-title>
+			</v-list-item>
+
+			<v-list-item prepend-icon="mdi-cart" link to="/cart">
+				<v-list-item-title>Shopping Cart</v-list-item-title>
+			</v-list-item>
+
+			<v-list-item
+				prepend-icon="mdi-file-document-outline"
+				link
+				to="/orders"
+			>
+				<v-list-item-title>Orders</v-list-item-title>
+			</v-list-item>
+		</v-navigation-drawer>
+
+		<v-app-bar app>
+			<v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
+			<v-toolbar-title>Ecommerce do pedrinho</v-toolbar-title>
+		</v-app-bar>
+
+		<v-main>
 			<router-view></router-view>
-		</div>
-	</div>
+		</v-main>
+	</v-app>
 </template>
+
 <script>
+export default {
+	data() {
+		return {
+			drawer: false,
+		};
+	},
+	methods: {
+		toggleDrawer() {
+			this.drawer = !this.drawer;
+		},
+	},
+};
 </script>
-
-
