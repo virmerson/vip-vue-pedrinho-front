@@ -31,16 +31,19 @@
 								</v-card-actions>
 							</div>
 						</div>
+						<v-card-actions>
+							Total: R$ {{ totalCart }}
+						</v-card-actions>
 					</v-card>
 				</v-col>
 			</v-row>
 		</v-container>
-		<v-card-actions> Total: R$ {{ totalCart }} </v-card-actions>
 	</v-card>
 </template>
 <script>
 import { toRefs, computed, onMounted } from "vue";
 import { useOrdersStore } from "@/store/orders";
+
 
 export default {
 	setup() {
@@ -54,8 +57,8 @@ export default {
 		});
 
 		onMounted(() => {
-			orderStore.fetchOrders()
-		})
+			orderStore.fetchOrders();
+		});
 		return { orderStore, totalCart };
 	},
 };

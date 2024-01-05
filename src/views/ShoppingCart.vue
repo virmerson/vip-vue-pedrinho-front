@@ -54,11 +54,14 @@
 import { toRefs, computed, ref } from "vue";
 import { useCartStore } from "@/store/cart";
 import { useOrdersStore } from "@/store/orders";
+import { useAuthStore } from "@/store/auth";
+import router from "@/router/index";
 
 export default {
 	setup() {
 		const cartStore = useCartStore();
 		const orderStore = useOrdersStore();
+		const userStore = useAuthStore();
 
 		const deleteProduct = (index) => {
 			cartStore.removeFromCart(index);
@@ -78,8 +81,14 @@ export default {
 				total: totalCart.value,
 				createAt: new Date().toLocaleString(),
 			};
-			orderStore.addOrder(order);
-			clearCart();
+
+			
+			 if (userStore.isLogged()) {
+				orderStore.addOrder(order);
+				clearCart();
+			} else {
+				router.push("/login");
+			}
 		};
 		return {
 			cartStore,

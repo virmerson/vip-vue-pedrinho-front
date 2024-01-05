@@ -3,6 +3,7 @@ import ShoppingCart from "@/views/ShoppingCart.vue";
 import OrderList from "@/views/OrderList.vue";
 import ProductList from "@/views/ProductList.vue";
 import Login from "@/views/Login.vue";
+import FinishOrder from "@/views/FinishOrder.vue";
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/finishOrder",
+    name: "FinishOrder",
+    component: FinishOrder,
   },
 ];
 
