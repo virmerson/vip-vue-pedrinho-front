@@ -3,8 +3,8 @@ import axios from "axios"
 export const useOrdersStore = defineStore('orders', {
     state: () => ({ orders: [] }),
     actions: {
-        async addOrder(order) {
-            const response = await axios.post("http://localhost:3001/orders", { order })
+        async addOrder(order, token) {
+            const response = await axios.post("http://localhost:3001/orders", { order }, { headers: { "Authorization": "Bearer " + token } })
         },
         clearOrder() {
             this.orders = [];

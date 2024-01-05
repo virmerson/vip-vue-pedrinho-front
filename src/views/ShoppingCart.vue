@@ -84,7 +84,7 @@ export default {
 
 			
 			 if (userStore.isLogged()) {
-				orderStore.addOrder(order);
+				orderStore.addOrder(order, userStore.user.token);
 				clearCart();
 			} else {
 				router.push("/login");
