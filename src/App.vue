@@ -5,6 +5,8 @@
 		<ShoppingCart :cart="cart" @finishOrder="addOrder"></ShoppingCart>
 	</div>
 	<div><OrderList :orders="orders"></OrderList></div>
+
+	olaaa
 </template>
 <script >
 import { ref } from "vue";
