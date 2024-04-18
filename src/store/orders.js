@@ -9,9 +9,9 @@ export const useOrdersStore = defineStore('orders', {
         clearOrder() {
             this.orders = [];
         },
-        async fetchOrders() {
+        async fetchOrders(token) {
             try {
-                const response = await axios.get("http://localhost:3001/orders")
+                const response = await axios.get("http://localhost:3001/orders", { headers: { "Authorization": "Bearer " + token } })
                 this.orders = response.data
             } catch (error) {
                 console.log(error)

@@ -43,11 +43,12 @@
 <script>
 import { toRefs, computed, onMounted } from "vue";
 import { useOrdersStore } from "@/store/orders";
-
+import { useAuthStore } from "@/store/auth";
 
 export default {
 	setup() {
 		const orderStore = useOrdersStore();
+		const userStore = useAuthStore();
 		const totalCart = computed(() => {
 			const priceSum = orderStore.orders.reduce(
 				(total, prod) => total + parseFloat(prod.total),
@@ -57,7 +58,7 @@ export default {
 		});
 
 		onMounted(() => {
-			orderStore.fetchOrders();
+			orderStore.fetchOrders(userStore.user.token);
 		});
 		return { orderStore, totalCart };
 	},
